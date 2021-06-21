@@ -3,7 +3,7 @@ base: ['config/icdar2015.yaml']
 arch:
   type: Model
   backbone:
-    type: resnet18
+    type: resnet50
     pretrained: true
   neck:
     type: FPN
@@ -40,10 +40,10 @@ lr_scheduler:
     warmup_epoch: 3
 trainer:
   seed: 2
-  epochs: 100
+  epochs: 200
   log_iter: 10
   show_images_iter: 50
-  resume_checkpoint: 'datasets/output_checkpoint/DBNet_resnet18_FPN_DBHead/checkpoint/model_best.pth'
+  resume_checkpoint: 'datasets/output_checkpoint/DBNet_resnet50_FPN_DBHead/checkpoint/model_latest.pth'
   finetune_checkpoint: ''
   output_dir: ./datasets/output_checkpoint
   tensorboard: true

@@ -5,11 +5,12 @@
 from __future__ import print_function
 
 import argparse
+import logging
 import os
 import anyconfig
 
 os.environ['KMP_DUPLICATE_LIB_OK']='TRUE'
-os.environ['CUDA_VISIBLE_DEVICES']='-1'
+# os.environ['CUDA_VISIBLE_DEVICES']='0,1,2,3'
 
 
 def init_args():

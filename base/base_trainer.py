@@ -58,7 +58,7 @@ class BaseTrainer:
         self.optimizer = self._initialize('optimizer', torch.optim, model.parameters())
 
         # resume or finetune
-        if self.config['trainer']['resume_checkpoint'] != '':
+        if self.config['trainer']['resume_checkpoint'] != '' and os.path.isfile(os.path.join(self.config['trainer']['resume_checkpoint'])):
             self._load_checkpoint(self.config['trainer']['resume_checkpoint'], resume=True)
         elif self.config['trainer']['finetune_checkpoint'] != '':
             self._load_checkpoint(self.config['trainer']['finetune_checkpoint'], resume=False)

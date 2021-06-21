@@ -119,7 +119,7 @@ def init_args():
     parser.add_argument('--model_path', default=r'model_best.pth', type=str)
     parser.add_argument('--input_folder', default='./test/input', type=str, help='img path for predict')
     parser.add_argument('--output_folder', default='./test/output', type=str, help='img path for output')
-    parser.add_argument('--thre', default=0.3,type=float, help='the thresh of post_processing')
+    parser.add_argument('--thre', default=0.6,type=float, help='the thresh of post_processing')
     parser.add_argument('--polygon', action='store_true', help='output polygon or box')
     parser.add_argument('--show', action='store_true', help='show result')
     parser.add_argument('--save_resut', action='store_true', help='save box and score to txt file')
@@ -139,7 +139,7 @@ if __name__ == '__main__':
     # 初始化网络
     model = Pytorch_model(args.model_path, post_p_thre=args.thre, gpu_id=0)
     img_folder = pathlib.Path(args.input_folder)
-    for img_path in tqdm(get_file_list(args.input_folder, p_postfix=['.jpg'])):
+    for img_path in tqdm(get_file_list(args.input_folder, p_postfix=['.jpg', '.png'])):
         preds, boxes_list, score_list, t = model.predict(img_path, is_output_polygon=args.polygon)
         img = draw_bbox(cv2.imread(img_path)[:, :, ::-1], boxes_list)
         if args.show:
@@ -149,8 +149,8 @@ if __name__ == '__main__':
         # 保存结果到路径
         os.makedirs(args.output_folder, exist_ok=True)
         img_path = pathlib.Path(img_path)
-        output_path = os.path.join(args.output_folder, img_path.stem + '_result.jpg')
-        pred_path = os.path.join(args.output_folder, img_path.stem + '_pred.jpg')
+        output_path = os.path.join(args.output_folder, img_path.stem + '_result' + img_path.suffix)
+        pred_path = os.path.join(args.output_folder, img_path.stem + '_pred.jpg' + img_path.suffix)
         cv2.imwrite(output_path, img[:, :, ::-1])
         cv2.imwrite(pred_path, preds * 255)
-        save_result(output_path.replace('_result.jpg', '.txt'), boxes_list, score_list, args.polygon)
+        save_result(output_path.replace('_result' + img_path.suffix, '.txt'), boxes_list, score_list, args.polygon)

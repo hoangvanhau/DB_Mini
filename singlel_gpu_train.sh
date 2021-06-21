@@ -1,1 +1,1 @@
-python tools/train.py --config_file "config/icdar2015_resnet18_FPN_DBhead_polyLR.yaml"
+CUDA_VISIBLE_DEVICES=0 python tools/train.py --config_file="config/icdar2015_resnet50_FPN_DBhead_polyLR.yaml"
